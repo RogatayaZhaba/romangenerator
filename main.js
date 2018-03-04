@@ -1,6 +1,7 @@
 window.onload = function(){
 	document.querySelector("#min input").value = 0;
 	document.querySelector("#max input").value = 10;
+	preloadImages();
 	document.querySelector("button").onclick = function(event){
 		if(document.querySelector("#min input").value.toLowerCase() == "р" &&
 		 document.querySelector("#max input").value.toLowerCase() == "ж"){
@@ -15,6 +16,13 @@ window.onload = function(){
 			document.querySelector("#result div").innerText = "Not a number";
 		else
 			document.querySelector("#result div").innerText = result;
+	}
+}
+function preloadImages(){
+	let images = [];
+	for(let i = 0; i < 8; i++){
+		images[i] = new Image();
+		images[i].src = `background-${i+1}.svg`;
 	}
 }
 function EasterEgg(){
