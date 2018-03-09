@@ -1,5 +1,6 @@
 @media screen and (min-width: 10px) and (max-width: 200px){
 	body{
+		--tiny-font-size: 8px;
 		--small-font-size: 10px;
 		--regular-font-size: 12px;
 		--big-font-size: 28px;
@@ -7,9 +8,19 @@
 	button{
 		padding: 10px 10px;
 	}
+	#sidebar-container div{
+		margin-left: 5px;
+		margin-top: 5px;
+		font-size: 0.3em;
+	}
+	.icon{
+		min-width: 18px;
+		min-height: 18px;
+	}
 }
 @media screen and (min-width: 200px) and (max-width: 400px){
 	body{
+		--tiny-font-size: 10px;
 		--small-font-size: 14px;
 		--regular-font-size: 18px;
 		--big-font-size: 40px;
@@ -17,9 +28,19 @@
 	button{
 		padding: 10px 20px;
 	}
+	#sidebar-container div{
+		margin-left: 10px;
+		margin-top: 10px;
+		font-size: 0.5em;
+	}
+	.icon{
+		min-width: 20px;
+		min-height: 20px;
+	}
 }
 @media screen and (min-width: 400px) and (max-width: 900px){
 	body{
+		--tiny-font-size: 16px;
 		--small-font-size: 21px;
 		--regular-font-size: 28px;
 		--big-font-size: 54px;
@@ -27,15 +48,34 @@
 	button{
 		padding: 10px 20px;
 	}
+	#sidebar-container div{
+		margin-left: 15px;
+		margin-top: 15px;
+		font-size: 0.8em;
+	}
+	.icon{
+		min-width: 24px;
+		min-height: 24px;
+	}
 }
 @media screen and (min-width: 900px){
 	body{
+		--tiny-font-size: 21px;
 		--small-font-size: 28px;
 		--regular-font-size: 36px;
 		--big-font-size: 76px;
 	}
 	button{
 		padding: 10px 30px;
+	}
+	#sidebar-container div{
+		margin-left: 20px;
+		margin-top: 20px;
+		font-size: 1em;
+	}
+	.icon{
+		min-width: 32px;
+		min-height: 32px;
 	}
 }
 *{
@@ -108,7 +148,7 @@ button{
 }
 button:active {
   background-color: #b50000;
-  transform: translateY(4%);
+  transform: translateY(6%);
 }
 button:hover {
 	background-color: #b50000;
@@ -134,15 +174,75 @@ button:hover {
 	border: none;
 }
 #result div{
+	position: relative;
 	color: #fabf41;
 	font-size: var(--big-font-size);
+	transition: opacity 200ms;
 }
 input, button, .label{
 	font-size: var(--regular-font-size);
+}
+.visible{
+	visibility: visible;
 }
 .hidden{
 	visibility: hidden;
 }
 .small-font{
 	font-size: var(--small-font-size);
+}
+#sidebar-container{
+	display: block;
+	grid-column: 2;
+	grid-row: 2/4;
+}
+#sidebar-container div{
+	display: flex;
+	justify-content: left;
+	align-items: flex-end;
+}
+#sidebar-container p{
+	font-size: var(--tiny-font-size);
+	color: #fabf41;
+	margin-left: 10px;
+}
+.icon{
+	display: block;
+	position: relative;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+
+	transition: left 250ms ease-out;
+}
+.menu-item:hover{
+	transform: scale(1.1);
+}
+.menu-item:active{
+	transform: scale(1);
+}
+#sidebar-container p:hover, .icon:hover{
+  cursor: pointer;
+}
+#hamburger{
+	visibility: visible;
+	background-image: url("hamburger.svg");
+}
+#home{
+	background-image: url("home.svg");
+}
+#settings{
+	background-image: url("settings.svg");
+}
+#faq{
+	background-image: url("faq.svg");
+}
+.on{
+	left: 0px;
+}
+.off{
+	left: -70px;
+}
+.transparent{
+	opacity: 0;
 }

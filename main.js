@@ -2,6 +2,7 @@ window.onload = function(){
 	document.querySelector("#min input").value = 0;
 	document.querySelector("#max input").value = 10;
 	preloadImages();
+
 	document.querySelector("button").onclick = function(event){
 		if(document.querySelector("#min input").value.toLowerCase() == "р" &&
 		 document.querySelector("#max input").value.toLowerCase() == "ж"){
@@ -10,13 +11,58 @@ window.onload = function(){
 		}
 		let min = +document.querySelector("#min input").value;
 		let max = +document.querySelector("#max input").value;
-		
-		let result = Math.floor(min + 1 + Math.random() * (max - min - 1));
-		if(isNaN(result))
-			document.querySelector("#result div").innerText = "Not a number";
-		else
-			document.querySelector("#result div").innerText = result;
+		let element = document.querySelector("#result div");
+		let result = getRandomNumber(min, max, false, false);
+
+		setResult(result);
 	}
+
+	document.querySelector("#hamburger").onclick = function(event){
+		if(menu.isOn)
+			hideMenu();
+		else
+			showMenu();
+	}
+
+	document.querySelectorAll(".menu-item").forEach(item => item.onmouseover = showMenuItemDescr);
+	document.querySelectorAll(".menu-item").forEach(item => item.onmouseleave = hideMenuItemDescr);
+}
+const menu = {
+	isOn: false,
+	animationDuration: 250,
+	showItemDelay: 1/4
+}
+function getRandomNumber(min, max, includeMin, includeMax){
+	let minCorrection = 0;
+	let maxCorrection = 0;
+
+	if(!includeMin)
+		minCorrection = 1;
+	if(!includeMax)
+		maxCorrection = 1;
+
+	let result = Math.floor(min + minCorrection + Math.random() * (max - min - maxCorrection));
+	if(isNaN(result))
+		result = "Not a number";
+	return result;
+}
+async function setResult(result){
+	let element = document.querySelector("#result div");
+	await fadeIn(element);
+	element.innerText = result;
+	await fadeOut(element);
+}
+function fadeIn(element){
+	return new Promise(function(resolve, reject){
+		element.classList.add("transparent");
+		let id = setTimeout(() => resolve("faded in"), 250);
+	})
+}
+function fadeOut(element){
+	return new Promise(function(resolve, reject){
+		element.classList.remove("transparent");
+		let id = setTimeout(() => resolve("faded out"), 250);
+	})
 }
 function preloadImages(){
 	let images = [];
@@ -53,4 +99,43 @@ function EasterEgg(){
 		timerId = setTimeout(tick, 30);
 	}, 30);
 	quotes[0] = "Юкі, юкі, юкі!";
+}
+async function showMenu(){
+	let menuItems = [...document.querySelectorAll(".menu-item")];
+
+	menu.isOn = true;
+	for(let item of menuItems){
+		await showMenuItem(item, menu.animationDuration);
+	}
+}
+async function hideMenu(){
+	let menuItems = [...document.querySelectorAll(".menu-item")];
+
+	menu.isOn = false;
+	for(let item of menuItems){
+		await hideMenuItem(item, menu.animationDuration);
+	}
+}
+function showMenuItem(item, duration){
+	return new Promise(function(resolve, reject){
+		item.classList.remove("hidden");
+		item.classList.remove("off");
+		item.classList.add("on");
+		let id = setTimeout(()=> resolve("item is on now"), duration * menu.showItemDelay);
+	});
+}
+function hideMenuItem(item, duration){
+	return new Promise(function(resolve, reject){
+		item.classList.remove("on");
+		item.classList.add("off");
+		let id = setTimeout(()=> resolve("item is off now"), duration * menu.showItemDelay);
+	});
+}
+function showMenuItemDescr(){
+	let description = this.parentNode.querySelector("p");
+	description.classList.remove("hidden");
+}
+function hideMenuItemDescr(){
+	let description = this.parentNode.querySelector("p");
+	description.classList.add("hidden");
 }
