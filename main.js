@@ -134,6 +134,7 @@ function hideMenuItem(item, duration){
 function showMenuItemDescr(){
 	let description = this.parentNode.querySelector("p");
 	description.classList.remove("hidden");
+	console.log(this);
 }
 function hideMenuItemDescr(){
 	let description = this.parentNode.querySelector("p");

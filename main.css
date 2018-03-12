@@ -91,6 +91,7 @@
 	font-family: "Myriad Pro";
 
 	background-color: #9a0000;
+	--remove-pos: calc(50%);
 }
 .logo{
 	grid-column: 3;
@@ -244,5 +245,21 @@ input, button, .label{
 	left: -70px;
 }
 .transparent{
+	opacity: 0;
+}
+.movable{
+	position: relative;
+	left: 0;
+	right: 0;
+	transition: left 200ms ease-in,
+				opacity 200ms cubic-bezier(1, 0.07, 1, 0.7),
+				right 200ms ease-out;
+}
+.remove-to-right{
+	left: var(--remove-pos);
+	opacity: 0;
+}
+.remove-to-left{
+	right: var(--remove-pos);
 	opacity: 0;
 }
