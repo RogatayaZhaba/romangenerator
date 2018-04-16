@@ -7,26 +7,76 @@
 </head>
 <body>
 	<div id = "canvas">
-		<div class= "logo movable"></div>
-		<div id = "result" class = "movable">
-			<div>AVE MARS</div>
-		</div>
-		<div id = "button-group" class = "movable">
-			<div id = "min" class = "limit">
-				<div class = "label">MIN</div>
-				<input type = "text" size = "1"></input>
-			</div>
-			<button>PROCUDO</button>
-			<div id = "max" class = "limit">
-				<div class = "label">MAX</div>
-				<input type = "text" size = "1"></input>
-			</div>
-		</div>
-
 		<div id = "upper-border" class = "horizontal"></div>
 		<div id = "lower-border" class = "horizontal"></div>
 		<div id = "left-border" class = "vertical"></div>
 		<div id = "right-border" class = "vertical"></div>
+
+		<div id = "main" class = "movable">
+			<div class= "logo"></div>
+			<div id = "result">
+				<div>AVE ZHABA</div>
+			</div>
+			<div id = "button-group">
+				<div id = "min" class = "limit">
+					<div class = "label">MIN</div>
+					<input type = "text" size = "1"></input>
+				</div>
+				<button>PROCUDO</button>
+				<div id = "max" class = "limit">
+					<div class = "label">MAX</div>
+					<input type = "text" size = "1"></input>
+				</div>
+			</div>
+		</div>
+
+		<div id = "faq-container" class = "movable remove-to-left">
+			<div class = "spoiler">
+				<div class = "spoiler-head">
+					<i class = "closed"></i>
+					<p>Как можно было выбрать МΛRS принцепсом?!</p>
+				</div>
+				<p class = "closed hidden spoiler-body">Некоторые вещи не меняются</p>
+			</div>
+			<div class = "spoiler">
+				<div class = "spoiler-head">
+					<i class = "closed"></i>
+					<p>Почему выпадают одинаковые значения?</p>
+				</div>
+				<p class = "closed hidden spoiler-body">Каждое число генерируется случайно и независимо от предыдущего. Интуитивное восприятие случайности как равномерного распределения чисел нас обманывает — такая система, на самом деле, противоположна случайности. Три одинаковых числа подряд — это нормально</p>
+			</div>
+			<div class = "spoiler">
+				<div class = "spoiler-head">
+					<i class = "closed"></i>
+					<p>Как работает генератор?</p>
+				</div>
+				<p class = "closed hidden code-dark-background spoiler-body">
+					<span class = "code-blue">function</span> <span class = "code-green">getRandomNumber</span>(<span class = "code-orange">min</span>, <span class = "code-orange">max</span>, <span class = "code-orange">includeMin</span>, <span class = "code-orange">includeMax</span>){<br>
+					&emsp;<span class = "code-blue">let</span> minCorrection <span class = "code-red">=</span> <span class = "code-violet">0</span>;<br>
+					&emsp;<span class = "code-blue">let</span> maxCorrection <span class = "code-red">=</span> <span class = "code-violet">0</span>;<br>
+					<br>
+					&emsp;<span class = "code-red">if</span>(<span class = "code-red">!</span>includeMin)<br>
+						&emsp;&emsp;minCorrection <span class = "code-red">=</span> <span class = "code-violet">1</span>;<br>
+					&emsp;<span class = "code-red">if</span>(<span class = "code-red">!</span>includeMax)<br>
+						&emsp;&emsp;maxCorrection <span class = "code-red">=</span> <span class = "code-violet">1</span>;<br>
+					<br>
+					&emsp;<span class = "code-blue">let</span> result <span class = "code-red">=</span> <span class = "code-blue">Math</span>.<span class = "code-blue">floor</span>(min <span class = "code-red">+</span> minCorrection <span class = "code-red">+</span> <span class = "code-blue">Math</span>.<span class = "code-blue">random</span>() <span class = "code-red">*</span> (max <span class = "code-red">-</span> min <span class = "code-red">-</span> maxCorrection));<br>
+					&emsp;<span class = "code-red">if</span>(<span class = "code-blue">isNaN</span>(result))<br>
+					&emsp;&emsp;result <span class = "code-red">=</span> <span class = "code-yellow">"Not a number"</span>;<br>
+					&emsp;<span class = "code-red">return</span> result;<br>
+					}
+				</p>
+			</div>
+			<div class = "spoiler">
+				<div class = "spoiler-head">
+					<i class = "closed"></i>
+					<p>Я знаю, как сделать лучше</p>
+				</div>
+				<p class = "closed hidden spoiler-body">
+				Пиши сюда: rogatayazhabadev@gmail.com
+				</p>
+			</div>
+		</div>
 
 		<div id = "sidebar-container">
 			<div>
@@ -34,7 +84,7 @@
 			</div>
 			<div>
 				<i class="icon menu-item hidden off" id = "home"></i>
-				<p class="hidden">work in progress...</p>
+				<p class="hidden">главная</p>
 			</div>
 			<div>
 				<i class="icon menu-item hidden off" id = "settings"></i>
@@ -42,7 +92,7 @@
 			</div>
 			<div>
 				<i class="icon menu-item hidden off" id = "faq"></i>
-				<p class="hidden">work in progress...</p>
+				<p class="hidden">справка</p>
 			</div>	
 		</div>
 	</div>

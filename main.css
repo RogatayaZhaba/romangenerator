@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
 @media screen and (min-width: 10px) and (max-width: 200px){
 	body{
 		--tiny-font-size: 8px;
@@ -78,6 +79,11 @@
 		min-height: 32px;
 	}
 }
+:root{
+	--red: #9a0000;
+	--yellow: #fabf41;
+	--remove-pos: 100%;
+}
 *{
 	padding: 0;
 	margin: 0;
@@ -90,8 +96,16 @@
 	grid-template-rows: minmax(10px, 15px) minmax(5%, 0.5fr) 5fr 0.4fr 1fr minmax(5%, 0.5fr) minmax(10px, 15px);
 	font-family: "Myriad Pro";
 
-	background-color: #9a0000;
-	--remove-pos: calc(50%);
+	background-color: var(--red);
+	overflow: hidden;
+}
+#main{
+	display: grid;
+	grid-template-columns: minmax(10px, 15px) minmax(10px, 1fr) 2fr minmax(10px, 1fr) minmax(10px, 15px);
+	grid-template-rows: minmax(10px, 15px) minmax(5%, 0.5fr) 5fr 0.4fr 1fr minmax(5%, 0.5fr) minmax(10px, 15px);
+	grid-column: 1/6;
+	grid-row: 1/8;
+	overflow: hidden;
 }
 .logo{
 	grid-column: 3;
@@ -138,13 +152,13 @@
 }
 .label{
 	text-align: center;
-	color: #fabf41;
+	color: var(--yellow);
 }
 button{
-	color: #fabf41;
+	color: var(--yellow);
 	background: none;
 	cursor: pointer;
-	border: 3px solid #fabf41;
+	border: 3px solid var(--yellow);
 	font-family: "Myriad Pro";
 }
 button:active {
@@ -160,9 +174,9 @@ button:hover {
 	justify-content: space-around;
 }
 .limit > input{
-	color: #fabf41;
+	color: var(--yellow);
 	background: none;
-	border: 2px solid #fabf41;
+	border: 2px solid var(--yellow);
 	text-align: center;
 }
 #result{
@@ -176,7 +190,7 @@ button:hover {
 }
 #result div{
 	position: relative;
-	color: #fabf41;
+	color: var(--yellow);
 	font-size: var(--big-font-size);
 	transition: opacity 200ms;
 }
@@ -204,7 +218,7 @@ input, button, .label{
 }
 #sidebar-container p{
 	font-size: var(--tiny-font-size);
-	color: #fabf41;
+	color: var(--yellow);
 	margin-left: 10px;
 }
 .icon{
@@ -247,19 +261,88 @@ input, button, .label{
 .transparent{
 	opacity: 0;
 }
-.movable{
-	position: relative;
-	left: 0;
-	right: 0;
-	transition: left 200ms ease-in,
-				opacity 200ms cubic-bezier(1, 0.07, 1, 0.7),
-				right 200ms ease-out;
+.move-in{
+	transition: transform 200ms ease-out;
+}
+.move-out{
+	transition: transform 200ms ease-in;
 }
 .remove-to-right{
-	left: var(--remove-pos);
-	opacity: 0;
+	transform: translateX(var(--remove-pos));
 }
 .remove-to-left{
-	right: var(--remove-pos);
-	opacity: 0;
+	transform: translateX(calc(var(--remove-pos) * -1));
+}
+#faq-container{
+	overflow: hidden;
+	grid-column: 2/5;
+	grid-row: 2/7;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+.code-blue{
+	color: #66d9ef;
+}
+.code-green{
+	color: #a6e22e;
+}
+.code-orange{
+	color: #fd971f;
+}
+.code-red{
+	color: #f92672;
+}
+.code-yellow{
+	color: #e6db74;
+}
+.code-dark-background{
+	color: white;
+	font-size: 1em;
+	font-family: 'Inconsolata', monospace;
+	background-color: #272822;
+	padding: 10px;
+}
+.spoiler{
+	width: 60%;
+	margin-top: 20px;
+	background-color: var(--yellow);
+	border-radius: 10px 30px;
+	padding: 20px;
+}
+.spoiler:first-child{
+	margin-top: 5vh;
+}
+.spoiler-head{
+	display: flex;
+	font-weight: bold;
+	cursor: pointer;
+}
+.spoiler-head i{
+	display: block;
+	min-width: 15px;
+	min-height: 15px;
+	margin: 0 10px;
+}
+.spoiler-head i.closed{
+	background: url("spoiler-closed.svg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.spoiler-head i.open{
+	background: url("spoiler-open.svg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.spoiler-body{
+	margin-top: 10px;
+	margin-left: 30px;
+	transition: margin-top 200ms ease-in;
+}
+.spoiler-body.closed{
+	margin-top: calc(var(--height) * -1);
+	padding: 0;
 }

@@ -1,7 +1,10 @@
 window.onload = function(){
+	canvas.onScreen = document.querySelector("#main");
 	document.querySelector("#min input").value = 0;
 	document.querySelector("#max input").value = 10;
 	preloadImages();
+	updateSpoilerHeights();
+	window.onresize = onResize;
 
 	document.querySelector("button").onclick = function(event){
 		if(document.querySelector("#min input").value.toLowerCase() == "р" &&
@@ -17,20 +20,34 @@ window.onload = function(){
 		setResult(result);
 	}
 
-	document.querySelector("#hamburger").onclick = function(event){
+	/*document.querySelector("#hamburger").onclick = function(event){
 		if(menu.isOn)
 			hideMenu();
 		else
 			showMenu();
-	}
+	}*/
 
 	document.querySelectorAll(".menu-item").forEach(item => item.onmouseover = showMenuItemDescr);
 	document.querySelectorAll(".menu-item").forEach(item => item.onmouseleave = hideMenuItemDescr);
+	document.querySelectorAll(".spoiler-head").forEach(item => item.addEventListener("click", openSpoiler));
+	document.querySelector("#home").addEventListener("click", function(){
+		show(document.querySelector("#main"), 200)
+	});
+	document.querySelector("#faq").addEventListener("click", function(){
+		show(document.querySelector("#faq-container"), 200);
+	});
+}
+const canvas = {
+	onScreen: null,
+	isOkToMove: true
 }
 const menu = {
 	isOn: false,
 	animationDuration: 250,
 	showItemDelay: 1/4
+}
+const egg = {
+	hasFired: false
 }
 function getRandomNumber(min, max, includeMin, includeMax){
 	let minCorrection = 0;
@@ -134,9 +151,92 @@ function hideMenuItem(item, duration){
 function showMenuItemDescr(){
 	let description = this.parentNode.querySelector("p");
 	description.classList.remove("hidden");
-	console.log(this);
 }
 function hideMenuItemDescr(){
 	let description = this.parentNode.querySelector("p");
 	description.classList.add("hidden");
+}
+async function show(item, duration){
+	function slideIn(item, duration){
+		return new Promise(function(resolve, reject){
+			item.classList.remove("move-out");
+			item.classList.add("move-in");
+			item.classList.remove("remove-to-left");
+			let id = setTimeout(()=> resolve("item is on now"), duration);
+		});
+	}
+	function slideOut(item, duration){
+		return new Promise(function(resolve, reject){
+			item.classList.remove("move-in");
+			item.classList.add("move-out");
+			item.classList.add("remove-to-right");
+			let id = setTimeout(()=> resolve("item is off now"), duration);
+		});
+	}
+	function resetPosition(item){
+		item.classList.remove("move-out");
+		item.classList.add("remove-to-left");
+		item.classList.remove("remove-to-right");
+	}
+
+	if(item == canvas.onScreen || !canvas.isOkToMove)
+		return;
+
+	canvas.isOkToMove = false;
+
+	await Promise.all([slideIn(item, duration), slideOut(canvas.onScreen, duration)]);
+	resetPosition(canvas.onScreen);
+
+	canvas.onScreen = item;
+	canvas.isOkToMove = true;
+}
+async function openSpoiler(){
+	function animateSpoilerBody(node, duration){
+		return new Promise(function(resolve, reject){
+			node.classList.remove("closed");
+			let id = setTimeout(()=> resolve("spoiler is open now"), duration);
+		})
+	}
+
+	let duration = 200;
+	let spoilerBody = this.parentNode.querySelector(".spoiler-body");
+	let icon = this.querySelector("i");
+
+	icon.classList.remove("closed");
+	icon.classList.add("open");
+	await animateSpoilerBody(spoilerBody, duration);
+	spoilerBody.classList.remove("hidden");
+
+	this.removeEventListener("click", openSpoiler);
+	this.addEventListener("click", closeSpoiler);
+}
+async function closeSpoiler(){
+	function animateSpoilerBody(node, duration){
+		return new Promise(function(resolve, reject){
+			node.classList.add("closed");
+			let id = setTimeout(()=> resolve("spoiler is collapsed now"), duration);
+		})
+	}
+
+	let duration = 200;
+	let spoilerBody = this.parentNode.querySelector(".spoiler-body");
+	let icon = this.querySelector("i");
+
+	icon.classList.remove("open");
+	icon.classList.add("closed");
+	spoilerBody.classList.add("hidden");
+	await animateSpoilerBody(spoilerBody, duration);
+
+	this.removeEventListener("click", closeSpoiler);
+	this.addEventListener("click", openSpoiler);
+}
+function setCssHeight(item){
+	let height = item.offsetHeight;
+	item.style.setProperty("--height", `${height}px`);
+}
+function onResize(){
+	updateSpoilerHeights();
+}
+function updateSpoilerHeights(){
+	document.querySelectorAll(".spoiler-body").forEach(item => setCssHeight(item));
 }
