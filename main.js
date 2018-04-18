@@ -7,29 +7,20 @@ window.onload = function(){
 	window.onresize = onResize;
 
 	document.querySelector("button").onclick = function(event){
-		if(document.querySelector("#min input").value.toLowerCase() == "р" &&
-		 document.querySelector("#max input").value.toLowerCase() == "ж"){
-		 	EasterEgg();
-		 	return;
-		}
-		let min = +document.querySelector("#min input").value;
-		let max = +document.querySelector("#max input").value;
-		let element = document.querySelector("#result div");
-		let result = getRandomNumber(min, max, false, false);
-
-		setResult(result);
+		showResult();	
 	}
 
-	/*document.querySelector("#hamburger").onclick = function(event){
+	document.querySelector("#hamburger").onclick = function(event){
 		if(menu.isOn)
 			hideMenu();
 		else
 			showMenu();
-	}*/
+	}
 
 	document.querySelectorAll(".menu-item").forEach(item => item.onmouseover = showMenuItemDescr);
 	document.querySelectorAll(".menu-item").forEach(item => item.onmouseleave = hideMenuItemDescr);
 	document.querySelectorAll(".spoiler-head").forEach(item => item.addEventListener("click", openSpoiler));
+	document.querySelectorAll(".spoiler-head > i").forEach(item => item.addEventListener("click", openSpoiler));
 	document.querySelector("#home").addEventListener("click", function(){
 		show(document.querySelector("#main"), 200)
 	});
@@ -49,25 +40,53 @@ const menu = {
 const egg = {
 	hasFired: false
 }
-function getRandomNumber(min, max, includeMin, includeMax){
+function getRandomNumber(min, max, includeMin, includeMax, avoid){
 	let minCorrection = 0;
 	let maxCorrection = 0;
+	let result = avoid || false;
 
 	if(!includeMin)
 		minCorrection = 1;
 	if(!includeMax)
 		maxCorrection = 1;
 
-	let result = Math.floor(min + minCorrection + Math.random() * (max - min - maxCorrection));
-	if(isNaN(result))
-		result = "Not a number";
+	do{
+		result = Math.floor(min + minCorrection + Math.random() * (max - min - maxCorrection));
+		if(isNaN(result))
+			result = "Not a number";
+	}while(result == avoid)
 	return result;
 }
-async function setResult(result){
+function wait(time){
+	return new Promise((resolve, reject) => {
+		let id = setTimeout(() => resolve(`${time} milliseconds gone`), time);
+	});
+}
+function setResult(unique){
+	let min = +document.querySelector("#min input").value;
+	let max = +document.querySelector("#max input").value;
 	let element = document.querySelector("#result div");
-	await fadeIn(element);
+	let result = 0;
+
+	if(unique || unique === 0)
+		result = getRandomNumber(min, max, false, false, unique);
+	else
+		result = getRandomNumber(min, max, false, false);
+
+	console.log(result !== unique);
 	element.innerText = result;
-	await fadeOut(element);
+	return result;
+}
+async function showResult(){
+	let prevResult = 0;
+	let currResult = 0;
+
+	prevResult = document.querySelector("#result div").innerText;
+	for(let i = 0; i < 20; i++){
+		prevResult = setResult(prevResult);
+		await wait(50);
+	}
+	setResult();
 }
 function fadeIn(element){
 	return new Promise(function(resolve, reject){
@@ -87,35 +106,6 @@ function preloadImages(){
 		images[i] = new Image();
 		images[i].src = `background-${i+1}.svg`;
 	}
-}
-function EasterEgg(){
-	let quotes = [];
-	let logo = [];
-	let canvas = document.querySelector("#canvas");
-	let frame = 0;
-
-	for(let i = 0; i < 8; i++){
-		logo[i] = document.createElement("div");
-		logo[i].className = "logo hidden";
-		logo[i].style.backgroundImage = `url("background-${i+1}.svg")`;
-		canvas.append(logo[i]);
-	}
-	let timerId = setTimeout(function tick(){
-		if(frame > 7){
-			document.querySelectorAll(".hidden").forEach(logo => logo.remove());
-			document.querySelector("#result div").innerText = quotes[0];
-			return;
-		}
-		if(frame == 0)
-			document.querySelector(".logo").classList.add("hidden");
-		else
-			logo[frame-1].classList.add("hidden");
-
-		logo[frame].classList.remove("hidden");
-		frame++;
-		timerId = setTimeout(tick, 30);
-	}, 30);
-	quotes[0] = "Юкі, юкі, юкі!";
 }
 async function showMenu(){
 	let menuItems = [...document.querySelectorAll(".menu-item")];

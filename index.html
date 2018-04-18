@@ -34,46 +34,45 @@
 			<div class = "spoiler">
 				<div class = "spoiler-head">
 					<i class = "closed"></i>
-					<p>Как можно было выбрать МΛRS принцепсом?!</p>
-				</div>
-				<p class = "closed hidden spoiler-body">Некоторые вещи не меняются</p>
-			</div>
-			<div class = "spoiler">
-				<div class = "spoiler-head">
-					<i class = "closed"></i>
-					<p>Почему выпадают одинаковые значения?</p>
-				</div>
-				<p class = "closed hidden spoiler-body">Каждое число генерируется случайно и независимо от предыдущего. Интуитивное восприятие случайности как равномерного распределения чисел нас обманывает — такая система, на самом деле, противоположна случайности. Три одинаковых числа подряд — это нормально</p>
-			</div>
-			<div class = "spoiler">
-				<div class = "spoiler-head">
-					<i class = "closed"></i>
 					<p>Как работает генератор?</p>
 				</div>
-				<p class = "closed hidden code-dark-background spoiler-body">
-					<span class = "code-blue">function</span> <span class = "code-green">getRandomNumber</span>(<span class = "code-orange">min</span>, <span class = "code-orange">max</span>, <span class = "code-orange">includeMin</span>, <span class = "code-orange">includeMax</span>){<br>
-					&emsp;<span class = "code-blue">let</span> minCorrection <span class = "code-red">=</span> <span class = "code-violet">0</span>;<br>
-					&emsp;<span class = "code-blue">let</span> maxCorrection <span class = "code-red">=</span> <span class = "code-violet">0</span>;<br>
-					<br>
-					&emsp;<span class = "code-red">if</span>(<span class = "code-red">!</span>includeMin)<br>
-						&emsp;&emsp;minCorrection <span class = "code-red">=</span> <span class = "code-violet">1</span>;<br>
-					&emsp;<span class = "code-red">if</span>(<span class = "code-red">!</span>includeMax)<br>
-						&emsp;&emsp;maxCorrection <span class = "code-red">=</span> <span class = "code-violet">1</span>;<br>
-					<br>
-					&emsp;<span class = "code-blue">let</span> result <span class = "code-red">=</span> <span class = "code-blue">Math</span>.<span class = "code-blue">floor</span>(min <span class = "code-red">+</span> minCorrection <span class = "code-red">+</span> <span class = "code-blue">Math</span>.<span class = "code-blue">random</span>() <span class = "code-red">*</span> (max <span class = "code-red">-</span> min <span class = "code-red">-</span> maxCorrection));<br>
-					&emsp;<span class = "code-red">if</span>(<span class = "code-blue">isNaN</span>(result))<br>
-					&emsp;&emsp;result <span class = "code-red">=</span> <span class = "code-yellow">"Not a number"</span>;<br>
-					&emsp;<span class = "code-red">return</span> result;<br>
-					}
-				</p>
+				<div class = "closed hidden spoiler-body">
+					<p>Генератор написан на языке <i>JavaScript</i> и работает в браузере на стороне клиента. Функция генерации значения: </p>
+					<p class = "code-dark-background">
+						<br><span class = "code-comment">//...other code...</span><br><br>
+						<span class = "code-blue">function</span> <span class = "code-green">getRandomNumber</span>(<span class = "code-orange">min</span>, <span class = "code-orange">max</span>, <span class = "code-orange">includeMin</span>, <span class = "code-orange">includeMax</span>){<br>
+						&emsp;<span class = "code-blue">let</span> minCorrection <span class = "code-red">=</span> <span class = "code-violet">0</span>;<br>
+						&emsp;<span class = "code-blue">let</span> maxCorrection <span class = "code-red">=</span> <span class = "code-violet">0</span>;<br>
+						<br>
+						&emsp;<span class = "code-red">if</span>(<span class = "code-red">!</span>includeMin)<br>
+							&emsp;&emsp;minCorrection <span class = "code-red">=</span> <span class = "code-violet">1</span>;<br>
+						&emsp;<span class = "code-red">if</span>(<span class = "code-red">!</span>includeMax)<br>
+							&emsp;&emsp;maxCorrection <span class = "code-red">=</span> <span class = "code-violet">1</span>;<br>
+						<br>
+						&emsp;<span class = "code-blue">let</span> result <span class = "code-red">=</span> <span class = "code-blue">Math</span>.<span class = "code-blue">floor</span>(min <span class = "code-red">+</span> minCorrection <span class = "code-red">+</span> <span class = "code-blue">Math</span>.<span class = "code-blue">random</span>() <span class = "code-red">*</span> (max <span class = "code-red">-</span> min <span class = "code-red">-</span> maxCorrection));<br>
+						&emsp;<span class = "code-red">if</span>(<span class = "code-blue">isNaN</span>(result))<br>
+						&emsp;&emsp;result <span class = "code-red">=</span> <span class = "code-yellow">"Not a number"</span>;<br>
+						&emsp;<span class = "code-red">return</span> result;<br>
+						}
+						<br><br><span class = "code-comment">//...other code...</span><br><br>
+					</p>
+				</div>
 			</div>
 			<div class = "spoiler">
 				<div class = "spoiler-head">
 					<i class = "closed"></i>
-					<p>Я знаю, как сделать лучше</p>
+					<p>Можно ли повлиять на результат?</p>
+				</div>
+				<p class = "closed hidden spoiler-body">Весь код находится в браузере у Рогатой Жабы и не имеет внешних зависимостей, т.е. нет, ни автор генератора, ни кто-то другой на результат повлиять не могут</p>
+			</div>
+			<div class = "spoiler">
+				<div class = "spoiler-head">
+					<i class = "closed"></i>
+					<p>Я знаю, как сделать лучше / меня бесит дурацкая надпись/картинка/всё</p>
 				</div>
 				<p class = "closed hidden spoiler-body">
-				Пиши сюда: rogatayazhabadev@gmail.com
+				Предложения, пожелания и критику пиши сюда: <a>rogatayazhabadev@gmail.com</a><br>
+				Репозиторий на GitHub: <a href = "https://github.com/RogatayaZhaba/romangenerator">github.com/RogatayaZhaba/romangenerator</a>
 				</p>
 			</div>
 		</div>
@@ -88,7 +87,7 @@
 			</div>
 			<div>
 				<i class="icon menu-item hidden off" id = "settings"></i>
-				<p class="hidden">work in progress...</p>
+				<p class="hidden">in progress...</p>
 			</div>
 			<div>
 				<i class="icon menu-item hidden off" id = "faq"></i>
